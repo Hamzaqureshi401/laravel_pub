@@ -27,7 +27,8 @@ class TaskController extends Controller {
 
         $task = $this->checkUniqueTask($request);
         if ($task == true) {
-            return 'Task Already Exits';
+
+            return redirect()->back()->withErrors(['msg' => 'Task Already Exits']);
         }
 
         $task = new Task;

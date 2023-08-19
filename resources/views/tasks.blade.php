@@ -30,7 +30,10 @@
             <label for="task" class="col-sm-3 control-label">Task Time</label>
 
             <div class="col-sm-6">
-                <input type="time" name="time" class="form-control">
+                <select name="time">
+                    <option>AM</option>
+                    <option>PM</option>
+                </select>
             </div>
         </div>
 
