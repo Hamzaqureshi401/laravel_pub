@@ -14,6 +14,9 @@ class TaskController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'date' => 'required',
+            'time' => 'required'
+            
         ]);
 
         if ($validator->fails()) {
@@ -22,8 +25,17 @@ class TaskController extends Controller {
                 ->withErrors($validator);
         }
 
+        $task = $this->checkUniqueTask($request);
+        if ($task == true) {
+
+            return redirect()->back()->withErrors(['msg' => 'Task Already Exits']);
+        }
+
         $task = new Task;
         $task->name = $request->name;
+        $task->date = $request->date;
+        $task->time = $request->time;
+        
         $task->save();
 
         return redirect('/');
@@ -34,5 +46,10 @@ class TaskController extends Controller {
         Task::findOrFail($id)->delete();
 
         return redirect('/');
+    }
+
+    public function checkUniqueTask($request) {
+
+        return Task::where(['date' => $request->date, 'time' => $request->time])->exists();
     }
 }
